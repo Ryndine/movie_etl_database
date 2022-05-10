@@ -84,7 +84,7 @@ def extract_transform_load(wiki_file, kaggle_file, ratings_file):
     def parse_dollars(s):
         if type(s) != str:
             return np.nan
-
+        # Look into capture groups...
         if re.match(r'\$\s*\d+\.?\d*\s*milli?on', s, flags=re.IGNORECASE):
             s = re.sub('\$|\s|[a-zA-Z]','', s)
 
