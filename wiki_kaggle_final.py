@@ -76,7 +76,7 @@ def extract_transform_load(wiki_file, kaggle_file, ratings_file):
     wiki_movies_df = wiki_movies_df[wiki_columns_to_keep]
 
     box_office = wiki_movies_df['Box office'].dropna()
-    box_office = box_office.apply(lambda x: ' '.join(x) if type(x) == list else x)
+    box_office = box_office.apply(lambda x: ' '.join(x) if type(x) is list else x)
 
     form_one = r'\$\d+\.?\d*\s*[mb]illion'
     form_two = r'\$\d{1,3}(?:,\d{3})+'
@@ -110,18 +110,18 @@ def extract_transform_load(wiki_file, kaggle_file, ratings_file):
     wiki_movies_df.drop('Box office', axis=1, inplace=True)
 
     budget = wiki_movies_df['Budget'].dropna()
-    budget = budget.map(lambda x: ' '.join(x) if type(x) == list else x)
+    budget = budget.map(lambda x: ' '.join(x) if type(x) is list else x)
     budget = budget.str.replace(r'\$.*[-—–](?![a-z])', '$', regex=True)
     wiki_movies_df['budget'] = budget.str.extract(f'({form_one}|{form_two})', flags=re.IGNORECASE)[0].apply(parse_dollars)
 
-    release_date = wiki_movies_df['Release date'].dropna().apply(lambda x: ' '.join(x) if type(x) == list else x)
+    release_date = wiki_movies_df['Release date'].dropna().apply(lambda x: ' '.join(x) if type(x) is list else x)
     date_form_one = r'(?:January|February|March|April|May|June|July|August|September|October|November|December)\s[123]\d,\s\d{4}'
     date_form_two = r'\d{4}.[01]\d.[123]\d'
     date_form_three = r'(?:January|February|March|April|May|June|July|August|September|October|November|December)\s\d{4}'
     date_form_four = r'\d{4}'
     wiki_movies_df['release_date'] = pd.to_datetime(release_date.str.extract(f'({date_form_one}|{date_form_two}|{date_form_three}|{date_form_four})')[0], infer_datetime_format=True)
 
-    running_time = wiki_movies_df['Running time'].dropna().apply(lambda x: ' '.join(x) if type(x) == list else x)
+    running_time = wiki_movies_df['Running time'].dropna().apply(lambda x: ' '.join(x) if type(x) is list else x)
     running_time_extract = running_time.str.extract(r'(\d+)\s*ho?u?r?s?\s*(\d*)|(\d+)\s*m')
     running_time_extract = running_time_extract.apply(lambda col: pd.to_numeric(col, errors='coerce')).fillna(0)
     wiki_movies_df['running_time'] = running_time_extract.apply(lambda row: row[0]*60 + row[1] if row[2] == 0 else row[2], axis=1)
