@@ -1,5 +1,6 @@
 # Files
 config.py
+Resources/ratings.csv
 
 # Build and Release Folders
 bin-debug/
