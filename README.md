@@ -51,7 +51,7 @@ Clean wikipedia and kaggle data in order to create a database for analysis.
 
 - The ratings.csv kaggle file just needs to be converted to a datetime (in seconds)
 
-** Inspecting data:**
+**Inspecting data:**
 
 - Before inspecting the data I'm merging wikipedia data and the kaggle data together
 
