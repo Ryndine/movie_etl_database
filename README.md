@@ -1,7 +1,7 @@
 # Movie ETL & Database
 
 ## Objective: 
-Clean wikipedia and kaggle data in order to create a database for analysis.
+Create an ETL script that can clean wikipedia and kaggle data, then load the cleaned data into PostgreSQL for further analysis.
 
 ## Tools & databases used:
 - Python
